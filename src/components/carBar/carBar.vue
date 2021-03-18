@@ -27,6 +27,14 @@
       },
       toItem() {
         this.user = JSON.parse(sessionStorage.getItem("user"));
+        if (this.user === null){
+          this.$message({
+            dangerouslyUseHTMLString:true,
+            message:'<h3>您还未登录，请登陆后操作</h3>',
+            type:'error'
+          });
+            this.$router.push("user")
+        }
         if (this.user.isRealName === 0){
           this.$message({
             dangerouslyUseHTMLString:true,
