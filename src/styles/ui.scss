@@ -1,0 +1,29 @@
+.cars-form-ui {
+  .el-input__inner {
+    background-color: #202429 !important;
+    border: 1px solid #202429 !important;
+    color: #fff !important;
+    &::-webkit-input-placeholder {color: rgba(255, 255, 255, .2);}
+    &:-moz-placeholder {color: rgba(255, 255, 255, .2);}
+    &::-moz-placeholder {color: rgba(255, 255, 255, .2);}
+    &:-ms-input-placeholder {color: rgba(255, 255, 255, .2);}
+  }
+  .button-password {
+    width: 100% !important;
+  }
+  .button-vcode {
+    width: 100px;
+    height: 32px;
+    text-align: center;
+    line-height: 32px;
+    color: #fff;
+    z-index: 10;
+    position: absolute;
+    top: 4px;
+    right: 4px;
+    background: #34393f;
+    outline: none;
+    border: none;
+    font-size: 14px;
+  }
+}

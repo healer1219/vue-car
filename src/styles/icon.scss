@@ -1,0 +1,21 @@
+/*获取类名开头为icon的i标签*/
+i[class^=icon] {
+  display: inline-block;
+  background-repeat: no-repeat;
+}
+
+.icon-w-44 {
+  width: 44px;
+  height: 44px;
+}
+.icon-qm { background-image: url(~@/assets/img/icon/icon-help.png); background-position: 50%;}
+.icon-daohang { background-image: url(~@/assets/img/icon/icon-location.png); background-position: 50%;}
+.icon-daohanglansousuo { background-image: url(~@/assets/img/icon/icon-search.png); background-position: 50%;}
+.icon-daohanggerenzhongxin { background-image: url(~@/assets/img/icon/icon-user.png); background-position: 50%;}
+
+
+.icon-user-link-1 { background-image: url(~@/assets/img/icon/icon-router-link-001.png); background-position: 50%; }
+.icon-user-link-2 { background-image: url(~@/assets/img/icon/icon-router-link-002.png); background-position: 50%; }
+.icon-user-link-3 { background-image: url(~@/assets/img/icon/icon-router-link-003.png); background-position: 50%; }
+.icon-user-link-4 { background-image: url(~@/assets/img/icon/icon-router-link-004.png); background-position: 50%; }
+.icon-user-link-5 { background-image: url(~@/assets/img/icon/icon-router-link-005.png); background-position: 50%; }
