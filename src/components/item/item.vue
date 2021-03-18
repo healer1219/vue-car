@@ -45,34 +45,35 @@
           v-model="dialogVisible"
           :visible="dialogVisible"
           :append-to-body="true"
-          @close="closeInfo"
+          @close="closeAccount"
+          title="租赁车辆"
       >
 
         <div class="scroll-wrap">
+          <h2>选择天数</h2>
+          <br/>
           <ul class="car-type-list">
-            <li class="current">
-              <h4 class="name pull-left">日租车</h4>
-              <span class="price pull-right">￥300/天</span>
-            </li>
-            <li>
-              <h4 class="name pull-left">月租车</h4>
-              <span class="price pull-right">￥300/天</span>
-            </li>
-            <li>
-              <h4 class="name pull-left">季度租车</h4>
-              <span class="price pull-right">￥300/天</span>
-            </li>
-            <li>
-              <h4 class="name pull-left">季度租车</h4>
-              <span class="price pull-right">￥300/天</span>
+            <li >
+              <div>
+                <el-slider
+                  v-model="value"
+                  show-input
+                :step="5">
+                </el-slider>
+              </div>
             </li>
           </ul>
           <div class="clause-dec">
             <span class="pull-left">参保《全面保障服务》用车更放心</span>
             <i class="current"></i>
           </div>
+          <br/>
+          <br/>
+          <div>
+            <span style="float: right; font-size: 30px; color: #409eff"> 结算：{{value * 100}} 元</span>
+          </div>
         </div>
-        <div class="car-select-btn">预约车辆</div>
+        <el-button class="car-select-btn" style=" line-height: 20px; margin-left: 230px; margin-top: 20px" plain @click="payAccount">租赁车辆</el-button>
       </el-dialog>
 
 
@@ -163,6 +164,8 @@ export default {
   name: "carItem",
   data(){
     return{
+      amount: 0,
+      value: 0,
       itemData: [],
       carInfo: {},
       dialogFormVisible: false,
@@ -170,6 +173,13 @@ export default {
     }
   },
   methods :{
+    payAccount(){
+      this.amount = this.value * 100
+
+    },
+    closeAccount(){
+      this.dialogVisible = false
+    },
     closeInfo() {
       this.dialogFormVisible = false;
     },
@@ -208,4 +218,10 @@ export default {
   width: 350px;
   float: left;
 }
+.liButton{
+  width: 300px;
+
+}
+
+
 </style>
