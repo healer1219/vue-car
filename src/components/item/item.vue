@@ -13,30 +13,14 @@
           <div>
                         <h4 class="car-number">{{ item.num }}</h4>
             <div>
-              <!--              <ul class="car-eletric active-li-1">-->
-              <!--                <li></li>-->
-              <!--                <li></li>-->
-              <!--                <li></li>-->
-              <!--                <li></li>-->
-              <!--                <li></li>-->
-              <!--                <li></li>-->
-              <!--                <li></li>-->
-              <!--                <li></li>-->
-              <!--                <li></li>-->
-              <!--                <li></li>-->
-              <!--              </ul>-->
-              <!--              <p class="distance">-->
-              <!--                <sub>约</sub>-->
-              <!--                <strong>600</strong>-->
-              <!--                <sub>KM</sub>-->
-              <!--              </p>-->
+
             </div>
           </div>
         </div>
         <img :src="carInfo.image" alt="">
       </div>
       <footer>
-        <a class="parking-lot" @click="getItemInfo">详情</a>
+        <a class="parking-lot" @click="getItemInfo">{{item.price}}元/天 <span style="margin-left: 200px">了解详情</span></a>
       </footer>
 
 
@@ -70,14 +54,14 @@
           <br/>
           <br/>
           <div>
-            <span style="float: right; font-size: 30px; color: #409eff"> 结算：{{value * 100}} 元</span>
+            <span style="float: right; font-size: 30px; color: #409eff"> 结算：{{value * item.price}} 元</span>
           </div>
         </div>
-        <el-button class="car-select-btn" style=" line-height: 20px; margin-left: 230px; margin-top: 20px" plain @click="payAccount">租赁车辆</el-button>
+        <el-button class="car-select-btn" style=" line-height: 20px; margin-left: 230px; margin-top: 20px" plain @click="payAccount(item.price, item.id)">租赁车辆</el-button>
       </el-dialog>
 
 
-  <el-dialog
+      <el-dialog
           v-model="dialogFormVisible"
           :visible="dialogFormVisible"
           :append-to-body="true"
@@ -85,62 +69,64 @@
           :title="carInfo.name +' '+ item.num"
       >
         <center>{{item.itemDesc.desc}}</center>
-        <el-card class="box-card">
-          <div >
-            <p>{{item.itemDesc.frontDesc}}</p>
-            <img :src="'passat/'+item.itemDesc.frontImg" alt="" class="itemDesc">
-          </div>
-        </el-card>
-
-        <el-card class="box-card">
-          <div >
-            <p>{{item.itemDesc.frontLeftDesc}}</p>
-            <img :src="'passat/'+item.itemDesc.frontLeftImg" alt="" class="itemDesc">
-          </div>
-        </el-card>
-
-        <el-card class="box-card">
-          <div>
-            <p>{{item.itemDesc.frontRightDesc}}</p>
-            <img :src="'passat/'+item.itemDesc.frontRightImg" alt="" class="itemDesc">
-          </div>
-        </el-card>
-
-        <el-card class="box-card">
-          <div >
-            <p>{{item.itemDesc.backDesc}}</p>
-            <img :src="'passat/'+item.itemDesc.backImg" alt="" class="itemDesc">
-          </div>
-        </el-card>
-
-        <el-card class="box-card">
-          <div >
-            <p>{{item.itemDesc.backLeftDesc}}</p>
-            <img :src="'passat/'+item.itemDesc.backLeftImg" alt="" class="itemDesc">
-          </div>
-        </el-card>
-
-        <el-card class="box-card">
-          <div >
-            <p>{{item.itemDesc.backRightDesc}}</p>
-            <img :src="'passat/'+item.itemDesc.backRightImg" alt="" class="itemDesc">
-          </div>
-        </el-card>
-
-        <el-card class="box-card">
-          <div >
-            <p>{{item.itemDesc.insideDesc}}</p>
-            <img :src="'passat/'+item.itemDesc.insideImg" alt="" class="itemDesc">
-          </div>
-        </el-card>
-        <el-card class="box-card">
-          <div>
-            <p>{{item.itemDesc.insideBackDesc}}</p>
-            <img :src="'passat/'+item.itemDesc.insideBackImg" alt="" class="itemDesc">
-          </div>
-        </el-card>
         <br/>
+        <div>
+          <el-card class="box-card">
+            <div >
+              <p>{{item.itemDesc.frontDesc}}</p>
+              <img :src="'passat/'+item.itemDesc.frontImg" alt="" class="itemDesc">
+            </div>
+          </el-card>
 
+          <el-card class="box-card">
+            <div >
+              <p>{{item.itemDesc.frontLeftDesc}}</p>
+              <img :src="'passat/'+item.itemDesc.frontLeftImg" alt="" class="itemDesc">
+            </div>
+          </el-card>
+
+          <el-card class="box-card">
+            <div>
+              <p>{{item.itemDesc.frontRightDesc}}</p>
+              <img :src="'passat/'+item.itemDesc.frontRightImg" alt="" class="itemDesc">
+            </div>
+          </el-card>
+
+          <el-card class="box-card">
+            <div >
+              <p>{{item.itemDesc.backDesc}}</p>
+              <img :src="'passat/'+item.itemDesc.backImg" alt="" class="itemDesc">
+            </div>
+          </el-card>
+
+          <el-card class="box-card">
+            <div >
+              <p>{{item.itemDesc.backLeftDesc}}</p>
+              <img :src="'passat/'+item.itemDesc.backLeftImg" alt="" class="itemDesc">
+            </div>
+          </el-card>
+
+          <el-card class="box-card">
+            <div >
+              <p>{{item.itemDesc.backRightDesc}}</p>
+              <img :src="'passat/'+item.itemDesc.backRightImg" alt="" class="itemDesc">
+            </div>
+          </el-card>
+
+          <el-card class="box-card">
+            <div >
+              <p>{{item.itemDesc.insideDesc}}</p>
+              <img :src="'passat/'+item.itemDesc.insideImg" alt="" class="itemDesc">
+            </div>
+          </el-card>
+          <el-card class="box-card">
+            <div>
+              <p>{{item.itemDesc.insideBackDesc}}</p>
+              <img :src="'passat/'+item.itemDesc.insideBackImg" alt="" class="itemDesc">
+            </div>
+          </el-card>
+          <br/>
+        </div>
 
         <template #footer>
     <span class="dialog-footer">
@@ -150,7 +136,19 @@
         </template>
       </el-dialog>
 
-
+      <el-dialog
+        v-model="getCar"
+        :visible="getCar"
+        :append-to-body="true"
+        @close="closeAccount"
+        title="租赁车辆"
+      >
+        <el-button type="primary" icon="el-icon-edit">
+          <a :href="'https://uri.amap.com/marker?position='+item.addressX+','+item.addressY+'&name=取车停车场'" target="_blank">
+            <p class="title">去取车</p>
+          </a>
+        </el-button>
+      </el-dialog>
     </section>
 
 
@@ -160,6 +158,8 @@
 </template>
 
 <script>
+import router from "../../router";
+
 export default {
   name: "carItem",
   data(){
@@ -169,13 +169,47 @@ export default {
       itemData: [],
       carInfo: {},
       dialogFormVisible: false,
-      dialogVisible:false
+      dialogVisible:false,
+      getCar: false,
+      order: {
+        "id": 0,
+        "orderNo": "",
+        "orderAmount": 0.0,
+        "consignee": "",
+        "address": "",
+        "phone": "",
+        "status": 0,
+        "userId": "",
+        "createTime": null,
+        "updateTime": null,
+        "itemId": 0
+      },
+      user:{},
     }
   },
   methods :{
-    payAccount(){
-      this.amount = this.value * 100
+    payAccount(price, id){
+      this.order.orderAmount = this.value * price;
+      //alert(this.order.orderAmount)
+      this.user = JSON.parse(sessionStorage.getItem("user"));
+      this.order.userId = this.user.id;
+      this.order.itemId = id;
+      //alert(this.order.userId)
+      this.$orderApi.post(true, "/order/addOrder",this.order, res =>{
+          console.log(res)
+        if (res.data.code === 10001){
+          this.$message({
+            dangerouslyUseHTMLString:true,
+            message:res.data.data,
+            type:'error'
+          });
+          this.$router.push("/carItem")
+        }
+        if (res.data.code === 10000){
+            this.getCar = true
+        }
 
+      })
     },
     closeAccount(){
       this.dialogVisible = false
@@ -207,16 +241,21 @@ export default {
 @import "./style.scss";
 
 .itemDesc{
-  height: 200px;
+  height: 300px;
   margin: auto;
   position: absolute;
 }
 
+.itemDesc:hover{
+  transform: scale(1.2);
+  transition: all .3s
+}
+
 .box-card {
   margin-bottom: 5px;
-  height: 245px;
-  width: 350px;
-  float: left;
+  height: 345px;
+  width: 490px;
+  margin-left: 245px;
 }
 .liButton{
   width: 300px;

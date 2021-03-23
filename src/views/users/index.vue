@@ -42,6 +42,8 @@
         <i class="icon icon-user-link-5"></i>
         帮助中心
       </router-link>
+      <el-amap-marker></el-amap-marker>
+
     </ul>
     <button class="logout">退出</button>
   </div>

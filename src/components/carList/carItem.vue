@@ -1,17 +1,17 @@
 <template>
   <div>
-   <section class="car-item">
+   <section v-if="getOrder" class="car-item">
       <header>
         <h4 class="cars-logo">
-          <img src="~@/assets/img/cars-logo.png" alt="Mustang 2019款">
-          <span class="cars-name">Mustang 2019款</span>
+          <img :src="brand.img" :alt="carInfo.name" style="height: 45px">
+          <span class="cars-name">{{ carInfo.name }}</span>
         </h4>
-        <p class="cars-attr">新能源汽车 5座</p>
+        <p class="cars-attr">正在进行中的订单</p>
       </header>
       <div class="car-content">
         <div class="info">
           <div>
-            <h4 class="car-number">粤 B745NB</h4>
+            <h4 class="car-number">{{ item.num }}</h4>
             <div>
               <ul class="car-eletric active-li-1">
                 <li></li>
@@ -33,12 +33,22 @@
             </div>
           </div>
         </div>
-        <img src="~@/assets/img/pic001.jpg" alt="">
+        <img :src="carInfo.image" alt="">
       </div>
       <footer>
-        <a href="" class="parking-lot">某某停车场</a>
+        <p class="parking-lot">{{order.createTime}}</p>
       </footer>
     </section>
+    <section v-else class="car-brand">
+      <header>
+        <h3 class="cars-attr">没有正在进行中的订单哦! &nbsp;</h3>
+        <p class="cars-attr">快去选车吧！</p>
+      </header>
+
+    </section>
+
+
+
     <section class="car-brand" v-for="(brand,index) in carList" :key="index">
       <header>
         <h4 class="cars-logo" >
@@ -70,7 +80,24 @@
           type: [],
           resource: '',
           desc: ''
-        }
+        },
+        order: {
+          "id": 0,
+          "orderNo": "",
+          "orderAmount": 0.0,
+          "consignee": "",
+          "address": "",
+          "phone": "",
+          "status": 0,
+          "userId": "",
+          "createTime": null,
+          "updateTime": null,
+          "itemId": 0
+        },
+        carInfo:{},
+        item:{},
+        brand:{},
+        getOrder: true,
       }
     },
     methods: {
@@ -103,10 +130,36 @@
       }
     },
     mounted() {
+      let user = JSON.parse(sessionStorage.getItem("user"));
+
       this.$carApi.get('/brand', null, response =>{
         console.log(response)
         this.carList = response.data.data
       })
+
+      this.$orderApi.get("/order/userOrder/"+user.id, null, res => {
+        console.log(res)
+        if (res.data.code === 10001){
+          this.getOrder = false;
+        }
+        this.order = res.data.data
+        this.$itemApi.get("/item/"+this.order.itemId, null, res => {
+          console.log(res)
+          let item = res.data.data;
+          this.item = item;
+          this.$carApi.get('brand/carInfo/single/'+item.carId,null,(res) => {
+            this.carInfo = res.data.data;
+            console.log(res.data.data)
+            let carInfo = res.data.data;
+            this.$carApi.get('/brand/'+carInfo.brandId, null, response =>{
+              console.log(response)
+              this.brand= response.data.data
+            })
+          })
+        })
+      })
+
+
     }
   }
 </script>
