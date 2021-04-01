@@ -2,7 +2,21 @@
   <div class="navbar">
     <ul>
       <li><i class="icon icon-w-44 icon-qm"></i></li>
-      <li><i class="icon icon-w-44 icon-daohanglansousuo"></i></li>
+      <li>
+        <el-popover
+        placement="bottom"
+        width="300"
+        trigger="click"
+        >
+          <el-button class="icon icon-w-44 icon-daohanglansousuo" slot="reference"></el-button>
+
+          <el-form >
+            <el-form-item>
+              <el-input v-model="search" @keyup.enter.native="goSearch"></el-input>
+            </el-form-item>
+          </el-form>
+        </el-popover>
+        </li>
       <li><i class="car-select-btn" @click="toItem">立即租车</i></li>
       <li><i class="icon icon-w-44 icon-daohang"></i></li>
       <li><i class="icon icon-w-44 icon-daohanggerenzhongxin" @click="toUser"></i></li>
@@ -11,15 +25,46 @@
   </div>
 </template>
 <script>
+  import router from "@/router";
+
   export default {
     name: "carBar",
     data(){
       return{
         user: {},
+        search: "输入您想搜索的车型",
       }
 
     },
     methods: {
+      goSearch(){
+        console.log("ssssss");
+        if (this.search === "输入您想搜索的车型"){
+            this.$message({
+              dangerouslyUseHTMLString:true,
+              message:'<h3>请输入您想要找的车型哦</h3>',
+              type:'error'
+            });
+        }else {
+          this.$carApi.get("/brand/carInfo/like?carName="+this.search, null, res => {
+            console.log(res.data.code)
+            if (res.data.code === 10001){
+              this.$message({
+                dangerouslyUseHTMLString:true,
+                message:'<h3>没有您您想要车型哦，再看看吧</h3>',
+                type:'error'
+              });
+            }else {
+              let searchCar = res.data.data
+              router.push("/item/"+searchCar.id)
+              location.reload()
+
+            }
+
+          })
+        }
+
+      },
       toUser() {
         this.$router.push({
           name: "User"

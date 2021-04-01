@@ -1,12 +1,12 @@
 <template>
-  <div class="isRealName">
-    <el-card class="realNameCard">
-        <el-form ref="form" :model="form" label-width="80px" class="form-item">
-          <el-form-item label="手机号:">
-            <el-input v-model="form.phone" style="width: 500px"></el-input>
+  <div class="isRealName" style="margin-top: 5px">
+        <el-form ref="form" :model="form" label-width="80px" class="form-item" style="margin-top: 5px">
+          <el-form-item>
+
+            <el-input v-model="form.phone" style="width: 300px; margin-right: 70px; " ></el-input>
           </el-form-item>
 
-          <el-form-item label="本人驾照">
+          <el-form-item>
               <el-upload
                 class="upload-demo"
                 drag
@@ -16,7 +16,7 @@
                 limit=1
               :on-success="showLicense">
                 <i class="el-icon-upload"></i>
-                <div class="el-upload__text">将文件拖到此处，或<em>点击上传</em></div>
+                <div class="el-upload__text">请将本人驾照图片拖到此处，或<em>点击上传</em></div>
                 <div class="el-upload__tip" slot="tip">只能上传jpg/png文件，且不超过500kb</div>
               </el-upload>
 <!--              <p>{{driverLicense.name}}</p>-->
@@ -56,7 +56,6 @@
 
           </el-form-item>
         </el-form>
-    </el-card>
   </div>
 </template>
 
@@ -73,17 +72,19 @@ export default {
         userName:"",
         phone:"",
         num:"",
+        userId:""
       },
-      user:{
-      },
+      user:{},
       dialogFormVisible : false,
       driverLicense: {},
     }
   },
   methods: {
     isRealName(){
+      this.user = JSON.parse(sessionStorage.getItem("user"));
       this.form.userName = this.driverLicense.name
       this.form.num = this.driverLicense.num
+      this.form.userId = this.user.id;
       console.log(this.form.name)
       this.$userApi.post(false,'/user/realName/isRealName',this.form, res => {
         console.log(res)
@@ -98,6 +99,8 @@ export default {
           });
           this.dialogFormVisible = false
         }else {
+          this.user.isRealName = 1;
+          sessionStorage.setItem("user", JSON.stringify(this.user))
           sessionStorage.setItem("isRealName","1");
           this.$message({
             message: '实名认证成功',
@@ -105,7 +108,7 @@ export default {
             duration: 6000
           });
           this.dialogFormVisible = false
-          this.$router.push("/Index")
+          this.$router.push("/")
         }
       })
       // this.$userApi.get('/user/realName/isRealName/'+this.user.phone,null,res => {
@@ -114,10 +117,11 @@ export default {
     },
     showLicense(){
       this.$userApi.get("/user/realName/driver",null,res => {
-        console.log(res.data);
+        //console.log(res.data);
         this.driverLicense=res.data
+        console.log(this.driverLicense)
       })
-      if (this.driverLicense){
+      if (this.driverLicense === null){
         this.dialogFormVisible = false
         this.$message({
           showClose: true,
@@ -171,6 +175,9 @@ export default {
 
   }
   .form-item{
-    margin-top: 100px;
+    margin-top: 20px;
+  }
+  .upload-demo{
+    margin-right: 70px;
   }
 </style>

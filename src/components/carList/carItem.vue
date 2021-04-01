@@ -36,7 +36,13 @@
         <img :src="carInfo.image" alt="">
       </div>
       <footer>
-        <p class="parking-lot">{{order.createTime}}</p>
+        <a v-if="order.status == 1" class="parking-lot" :href="'https://uri.amap.com/marker?position='+item.addressX+','+item.addressY+'&name=取车停车场'" target="_blank" @click="returnCar">
+          去还车
+        </a>
+        <a v-else class="parking-lot" :href="'https://uri.amap.com/marker?position='+item.addressX+','+item.addressY+'&name=取车停车场'" target="_blank" @click="returnCar">
+          去取车
+        </a>
+
       </footer>
     </section>
     <section v-else class="car-brand">
@@ -47,19 +53,60 @@
 
     </section>
 
-
-
-    <section class="car-brand" v-for="(brand,index) in carList" :key="index">
+    <section class="car-item"  style="margin-top: 5px">
       <header>
-        <h4 class="cars-logo" >
-          <span class="cars-name">{{ brand.name }}</span>
-          <img :src="brand.img" alt="上汽大众" style="height: 40px">
-            <el-button style="float: right" @click="toCarList(brand.id)">车型</el-button>
+        <h4 class="cars-logo">
+          <img :src="mostPopularBrand.img" style="height: 45px">
+          <span class="cars-name">{{ mostPopularCarOfAll.name }} 2020款</span>
         </h4>
-
+        <p class="cars-attr" >最受欢迎车型</p>
       </header>
-
+      <div class="car-content">
+        <div class="info">
+          <div>
+            <!--            <h4 class="car-number">粤 B745NB</h4>-->
+            <div>
+              <!--              <ul class="car-eletric active-li-1">-->
+              <!--                <li></li>-->
+              <!--                <li></li>-->
+              <!--                <li></li>-->
+              <!--                <li></li>-->
+              <!--                <li></li>-->
+              <!--                <li></li>-->
+              <!--                <li></li>-->
+              <!--                <li></li>-->
+              <!--                <li></li>-->
+              <!--                <li></li>-->
+              <!--              </ul>-->
+              <!--              <p class="distance">-->
+              <!--                <sub>约</sub>-->
+              <!--                <strong>600</strong>-->
+              <!--                <sub>KM</sub>-->
+              <!--              </p>-->
+            </div>
+          </div>
+        </div>
+        <img :src="mostPopularCarOfAll.image" alt="">
+      </div>
+      <footer>
+        <a class="parking-lot" @click="getItem(mostPopularCarOfAll.id)">详情</a>
+      </footer>
     </section>
+
+    <div style="margin-top: 5px">
+      <section class="car-brand" v-for="(brand,index) in carList" :key="index">
+        <header>
+          <h4 class="cars-logo" >
+            <span class="cars-name">{{ brand.name }}</span>
+            <img :src="brand.img" alt="上汽大众" style="height: 40px">
+            <el-button style="float: right" @click="toCarList(brand.id)">车型</el-button>
+          </h4>
+
+        </header>
+
+      </section>
+    </div>
+
   </div>
 </template>
 <script>
@@ -67,6 +114,8 @@
     name: "carItem",
     data(){
       return {
+        mostPopularCarOfAll:{},
+        mostPopularBrand:{},
         count: 0,
         dialogVisible: false,
         carList:[],
@@ -101,6 +150,17 @@
       }
     },
     methods: {
+      getItem(carId){
+        console.log(carId)
+        this.dialogFormVisible = false;
+        this.$router.push("/item/"+carId)
+      },
+      returnCar(){
+        this.$orderApi.post(true,"/order/change",this.order, res => {
+          console.log(res)
+          location.reload();
+        })
+      },
       toCarList(id){
         sessionStorage.setItem("brandId",id);
         this.$router.push('/carList/' + id)
@@ -137,22 +197,31 @@
         this.carList = response.data.data
       })
 
+      this.$carApi.get('/brand/carInfo/popular', null, response =>{
+        console.log(response)
+        this.mostPopularCarOfAll = response.data.data
+        this.$carApi.get('/brand/'+this.mostPopularCarOfAll.brandId, null, response =>{
+          console.log(response)
+          this.mostPopularBrand= response.data.data
+        })
+      })
+
       this.$orderApi.get("/order/userOrder/"+user.id, null, res => {
-        console.log(res)
+        //console.log(res)
         if (res.data.code === 10001){
           this.getOrder = false;
         }
         this.order = res.data.data
         this.$itemApi.get("/item/"+this.order.itemId, null, res => {
-          console.log(res)
+          //console.log(res)
           let item = res.data.data;
           this.item = item;
           this.$carApi.get('brand/carInfo/single/'+item.carId,null,(res) => {
             this.carInfo = res.data.data;
-            console.log(res.data.data)
+            //console.log(res.data.data)
             let carInfo = res.data.data;
             this.$carApi.get('/brand/'+carInfo.brandId, null, response =>{
-              console.log(response)
+              //console.log(response)
               this.brand= response.data.data
             })
           })

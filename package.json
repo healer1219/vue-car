@@ -12,9 +12,11 @@
     "core-js": "^3.6.5",
     "element-ui": "^2.13.2",
     "swiper": "^5.4.3",
+    "v-infinite-scroll": "^1.0.4",
     "vue": "^2.6.11",
     "vue-amap": "^0.5.10",
     "vue-awesome-swiper": "^4.1.1",
+    "vue-infinite-scroll": "^2.0.2",
     "vue-router": "^3.2.0",
     "vuex": "^3.4.0"
   },

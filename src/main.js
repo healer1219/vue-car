@@ -16,6 +16,9 @@ import "./plugin/aMap"
 // 轮播图插件
 import VueAwesomeSwiper from 'vue-awesome-swiper'
 
+import infiniteScroll from 'vue-infinite-scroll';
+Vue.use(infiniteScroll)
+
 Vue.use(ElementUI)
 Vue.use(VueAwesomeSwiper)
 Vue.config.productionTip = false;

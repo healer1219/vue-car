@@ -44,13 +44,18 @@ const routes = [
         name: "item",
         component: () => import("@/components/item/item")
       },
+      {
+        path: "/realName",
+        name: "realName",
+        component: () => import("@/components/RealName/realName")
+      },
+      {
+        path: "/order",
+        name: "order",
+        component: () => import("@/components/order/order")
+      }
 
     ]
-  },
-  {
-    path: "/carList/:id",
-    name: "carList",
-    component: carList
   },
   {
     path: "/login",
@@ -58,20 +63,10 @@ const routes = [
     component: () => import("@/components/login/login")
   },
   {
-    path: "/realName",
-    name: "realName",
-    component: () => import("@/components/RealName/realName")
-  },
-  {
     path: "/pay",
     name: "pay",
     component: () => import("@/components/pay/pay")
   },
-  {
-    path: "/order",
-    name: "order",
-    component: () => import("@/components/order/order")
-  }
 
 ];
 

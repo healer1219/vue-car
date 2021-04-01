@@ -88,8 +88,9 @@
         this.$router.push("/item/"+carId)
       },
       getInfo (descId ,car, index) {
+        let user = JSON.parse(sessionStorage.getItem("user"));
         this.dialogFormVisible=true;
-        this.$carApi.get('brand/carInfo/desc/'+descId, null, res=>{
+        this.$carApi.get('brand/carInfo/desc/'+descId+'?userId='+user.id, null, res=>{
           console.log(res)
           this.carData = res.data.data
           console.log(this.carData)

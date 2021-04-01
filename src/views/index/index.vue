@@ -80,7 +80,10 @@ export default {
     -moz-transition: all .3s ease 0s;
     -ms-transition: all .3s ease 0s;
     -o-transition: all .3s ease 0s;
+    overflow-x: hidden;
+    overflow-y: scroll;
   }
+  .element::-webkit-scrollbar { width: 0 !important }
   #children-wrap.open {
     right: 0;
   }
